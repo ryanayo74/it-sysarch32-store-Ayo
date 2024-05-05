@@ -2,13 +2,13 @@ import { doc, getDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { db } from "../config/firebase-config";
-import StarRating from "../components/Ratings";
 import Header from "../components/Header";
 import Loading from "../components/Loading";
 
 function ProductDetails() {
   const { productId } = useParams();
   const [product, setProduct] = useState(null);
+  const [showMessage, setShowMessage] = useState(false); // State for controlling message visibility
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -29,6 +29,8 @@ function ProductDetails() {
 
   const handleBuyNowClick = (e) => {
     e.preventDefault();
+    setShowMessage(true);
+    setTimeout(() => setShowMessage(false), 2000); // Hide the message after 2 seconds
   };
 
   if (!product) {
@@ -59,18 +61,20 @@ function ProductDetails() {
             ₱{product.Price}
           </label>
           <label className="raleway-font font-small text-gray">
-            <StarRating rating={product.Rating} />
-          </label>
-          <label className="raleway-font font-small text-gray">
             {product.Address}
           </label>
           <form className="mt-5" onSubmit={handleBuyNowClick}>
-            <button className="btn-paymongo" type="submit">
+            <button className="btn-buy" type="submit">
               Buy Now
             </button>
           </form>
         </div>
       </div>
+      {showMessage && (
+        <div className="popup-message">
+          Buy now functionality is not supported yet!
+        </div>
+      )}
     </>
   );
 }

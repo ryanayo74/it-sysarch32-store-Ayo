@@ -4,13 +4,12 @@ import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCj_4id2KTmMVwQpKpMbD4frqDMsZUjmz8",
-  authDomain: "ayo-activity7-online-store.firebaseapp.com",
-  projectId: "ayo-activity7-online-store",
-  storageBucket: "ayo-activity7-online-store.appspot.com",
-  messagingSenderId: "110752670309",
-  appId: "1:110752670309:web:9dc5fe30e04ec507f55c8c",
-  measurementId: "G-MGP445ZFYF"
+  apiKey: "AIzaSyAb5dcRFY7FppGaIU5TSXt7uWCMTMp7y3Q",
+  authDomain: "it-sysarch32-store-ayo.firebaseapp.com",
+  projectId: "it-sysarch32-store-ayo",
+  storageBucket: "it-sysarch32-store-ayo.appspot.com",
+  messagingSenderId: "820071796113",
+  appId: "1:820071796113:web:a4298b1bee73170079de30"
 };
 
 export const app = initializeApp(firebaseConfig);

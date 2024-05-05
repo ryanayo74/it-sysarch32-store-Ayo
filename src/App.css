@@ -75,15 +75,16 @@ header ul li > * {
 }
 
 .select-side {
-  padding-top: 50px;
   height: 60vh;
   display: flex;
   flex-direction: column;
-  justify-content: start;
+  justify-content: center;
+  align-items: center; 
   gap: 10px;
 }
 
-.btn-paymongo {
+
+.btn-buy {
   width: 200px;
   height: 50px;
   border: none;
@@ -107,7 +108,7 @@ header ul li > * {
     url("./assets/mouse.jpg");
   background-size: cover;
   object-fit: cover;
-  border-radius: 20px;
+  border-radius: 30px;
 }
 
 .child-2 {
@@ -123,7 +124,7 @@ header ul li > * {
     url("./assets/keyboard.jpg");
   background-size: cover;
   object-fit: cover;
-  border-radius: 20px;
+  border-radius: 30px;
 }
 
 .child-3 {
@@ -139,7 +140,7 @@ header ul li > * {
     url("./assets/printer.jpg");
   background-size: cover;
   object-fit: cover;
-  border-radius: 20px;
+  border-radius: 30px;
 }
 
 .child-4 {
@@ -155,7 +156,7 @@ header ul li > * {
     url("./assets/others.jpg");
   background-size: cover;
   object-fit: cover;
-  border-radius: 20px;
+  border-radius: 30px;
 }
 
 .main {
@@ -172,25 +173,14 @@ header ul li > * {
   background-position: center; 
 }
 
-
-
-button {
-  width: 40%;
-  height: 45px;
-  border: 1px white solid;
-  border-radius: 5px;
-  color: white;
-}
-
 button:hover {
   background-color: white;
   color: black;
 }
 
-/*2nd Layer*/
 .product-header {
-  height: 60px;
-  padding: 20px;
+  height: 10px;
+  padding: 2px;
 }
 .products-layer {
   height: 100%;
@@ -229,12 +219,8 @@ button:hover {
 }
 
 
-.raleway-font {
-  font-family: "Raleway", sans-serif;
-}
-
 .font-big {
-  font-size: 40px;
+  font-size: 50px;
 }
 
 .font-bold {
@@ -293,6 +279,3 @@ button:hover {
   margin-right: 150px;
 }
 
-.debug {
-  border: 1px solid red;
-}
