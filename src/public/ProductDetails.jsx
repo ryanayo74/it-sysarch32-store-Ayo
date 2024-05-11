@@ -1,14 +1,18 @@
+import React, { useState, useEffect } from 'react';
+import { loadStripe } from '@stripe/stripe-js';
 import { doc, getDoc } from "firebase/firestore";
-import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { db } from "../config/firebase-config";
 import Header from "../components/Header";
 import Loading from "../components/Loading";
 
-function ProductDetails() {
+// Load the Stripe.js library with your publishable API key
+const stripePromise = loadStripe('pk_test_51PFBYQBvPSqOWC2aGXXF2I2dRJ5acWkxTcTkEfhTItVnpOMJytq9mBxn7hz4UIW4QGExGvDuLbMgdfezEzhYS1cX00Gky306e3');
+
+const ProductDetails = () => {
   const { productId } = useParams();
   const [product, setProduct] = useState(null);
-  const [showMessage, setShowMessage] = useState(false); // State for controlling message visibility
+  const [showMessage, setShowMessage] = useState(false);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -27,15 +31,48 @@ function ProductDetails() {
     fetchProduct();
   }, [productId]);
 
-  const handleBuyNowClick = (e) => {
+  const handleBuyNowClick = async (e) => {
     e.preventDefault();
-    setShowMessage(true);
-    setTimeout(() => setShowMessage(false), 2000); // Hide the message after 2 seconds
+    const productName = product.Name;
+    const amount = product.Price * 100;
+  
+    try {
+      const response = await fetch('http://localhost:4000/create-checkout-session', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          productName: productName,
+          price: amount,
+        }),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+  
+      const data = await response.json();
+      console.log('Session ID:', data.id); // Log session ID for debugging
+  
+      const stripe = await stripePromise;
+      const { error } = await stripe.redirectToCheckout({
+        sessionId: data.id,
+      });
+  
+      if (error) {
+        throw new Error(error.message);
+      }
+    } catch (error) {
+      console.error(error);
+      setShowMessage(true);
+      setTimeout(() => setShowMessage(false), 2000);
+    }
   };
-
+  
   if (!product) {
     return <Loading />;
-  }
+  }  
 
   return (
     <>
@@ -58,25 +95,20 @@ function ProductDetails() {
             {product.Description}
           </label>
           <label className="raleway-font font-small text-dark">
-            ₱{product.Price}
+            ${product.Price}
           </label>
           <label className="raleway-font font-small text-gray">
             {product.Address}
           </label>
           <form className="mt-5" onSubmit={handleBuyNowClick}>
             <button className="btn-buy" type="submit">
-              Buy Now
+              Check-Out
             </button>
           </form>
         </div>
       </div>
-      {showMessage && (
-        <div className="popup-message">
-          Buy now functionality is not supported yet!
-        </div>
-      )}
     </>
   );
-}
+};
 
 export default ProductDetails;
